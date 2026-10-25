@@ -40,8 +40,15 @@ def show_suit_and_saree_types(location):
     prompt_template_types = PromptTemplate(
         input_variables=["store_names"],
         template=(
-            "For each of these stores, list the different types of suits and sarees available "
-            "(for example fabric, style and occasion):\n{store_names}"
+            "For each of these stores, briefly describe the suits and sarees it sells.\n"
+            "Use exactly this Markdown format for every store and nothing else:\n\n"
+            "**<Store name>**\n"
+            "- Suits: <3-4 types, comma separated>\n"
+            "- Sarees: <3-4 types, comma separated>\n"
+            "- Best for: <2-3 occasions, comma separated>\n\n"
+            "Rules: no tables, no HTML tags such as <br>, no introduction or summary, "
+            "keep each line under 15 words.\n\n"
+            "Stores:\n{store_names}"
         ),
     )
     types_chain = LLMChain(llm=llm, prompt=prompt_template_types, output_key="suit_types")
